@@ -1,92 +1,204 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Kayleb’s Game Hub</title>
+  <title>Calculator</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: #0b0f19;
-      color: #e6e6e6;
+      background: #050510;
+      color: #e0e0ff;
       font-family: Arial, sans-serif;
-      text-align: center;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
 
-    header {
-      background: #111827;
-      padding: 25px;
-      font-size: 36px;
-      font-weight: bold;
-      border-bottom: 3px solid #1f2937;
-      border-radius: 0 0 20px 20px;
-      color: #60a5fa;
+    /* Moving neon gradient background */
+    .bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, #0ff, #0066ff, #050510);
+      filter: blur(80px);
+      animation: pulse 8s infinite alternate;
+      z-index: -2;
     }
 
-    .content {
-      padding: 50px 20px;
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(1.3); opacity: 1; }
     }
 
-    h2 {
-      font-size: 30px;
-      margin-bottom: 20px;
-      color: #93c5fd;
+    /* Cursor spotlight */
+    .cursor-light {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(0,255,255,0.4), transparent 70%);
+      mix-blend-mode: screen;
+      transform: translate(-50%, -50%);
+      z-index: -1;
     }
 
-    p {
-      font-size: 18px;
-      color: #cbd5e1;
-    }
-
-    .game-button {
-      display: block;
-      margin: 20px auto;
-      padding: 18px 25px;
-      width: 260px;
-      background: #1e293b;
-      color: #e2e8f0;
-      text-decoration: none;
-      border-radius: 15px;
-      font-size: 20px;
-      transition: 0.25s;
-      border: 2px solid #334155;
-    }
-
-    .game-button:hover {
-      background: #334155;
-      border-color: #60a5fa;
-      color: #60a5fa;
-    }
-
-    footer {
-      margin-top: 60px;
+    .calc {
+      background: rgba(0, 0, 20, 0.8);
       padding: 20px;
-      background: #111827;
-      border-top: 3px solid #1f2937;
-      border-radius: 20px 20px 0 0;
-      font-size: 14px;
-      color: #64748b;
+      border-radius: 25px;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 0 25px #00eaff;
+      backdrop-filter: blur(10px);
+      border: 2px solid #00ccff;
+    }
+
+    .title {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #7dd3fc;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      font-size: 22px;
+      border-radius: 12px;
+      border: none;
+      margin-bottom: 15px;
+      text-align: right;
+      background: #020617;
+      color: #0ff;
+      box-shadow: inset 0 0 10px #00eaff;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+    }
+
+    button {
+      width: 60px;
+      height: 60px;
+      margin: 5px;
+      font-size: 20px;
+      border-radius: 12px;
+      border: none;
+      background: #020617;
+      color: #e0faff;
+      box-shadow: 0 0 10px #00eaff;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #0b1120;
+      box-shadow: 0 0 18px #00eaff;
+      color: #00eaff;
+    }
+
+    .op {
+      color: #f97316;
+    }
+
+    .eq {
+      background: #0f172a;
+      color: #22c55e;
+      box-shadow: 0 0 12px #22c55e;
+    }
+
+    .eq:hover {
+      box-shadow: 0 0 20px #22c55e;
+    }
+
+    .clear {
+      color: #f87171;
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    Kayleb’s Game Hub
-  </header>
+  <div class="bg"></div>
+  <div class="cursor-light" id="cursorLight"></div>
 
-  <div class="content">
-    <h2>Welcome</h2>
-    <p>Your games will appear here once you add them.</p>
+  <div class="calc">
+    <div class="title">Calculator</div>
+    <input id="screen" readonly>
 
-    <!-- Game links will go here later -->
-    <a class="game-button" href="#">Game 1 (coming soon)</a>
-    <a class="game-button" href="#">Game 2 (coming soon)</a>
+    <div class="row">
+      <button class="clear" onclick="clearScreen()">C</button>
+      <button onclick="press('(')">(</button>
+      <button onclick="press(')')">)</button>
+      <button class="op" onclick="press('/')">÷</button>
+    </div>
+
+    <div class="row">
+      <button onclick="press('7')">7</button>
+      <button onclick="press('8')">8</button>
+      <button onclick="press('9')">9</button>
+      <button class="op" onclick="press('*')">×</button>
+    </div>
+
+    <div class="row">
+      <button onclick="press('4')">4</button>
+      <button onclick="press('5')">5</button>
+      <button onclick="press('6')">6</button>
+      <button class="op" onclick="press('-')">−</button>
+    </div>
+
+    <div class="row">
+      <button onclick="press('1')">1</button>
+      <button onclick="press('2')">2</button>
+      <button onclick="press('3')">3</button>
+      <button class="op" onclick="press('+')">+</button>
+    </div>
+
+    <div class="row">
+      <button onclick="press('0')">0</button>
+      <button onclick="press('.')">.</button>
+      <button class="eq" onclick="calculate()">=</button>
+    </div>
   </div>
 
-  <footer>
-    © 2026 Kayleb — All rights reserved
-  </footer>
+  <script>
+    // Cursor spotlight movement
+    const light = document.getElementById("cursorLight");
+    document.addEventListener("mousemove", (e) => {
+      light.style.left = e.pageX + "px";
+      light.style.top = e.pageY + "px";
+    });
+
+    function press(val) {
+      document.getElementById("screen").value += val;
+    }
+
+    function clearScreen() {
+      document.getElementById("screen").value = "";
+    }
+
+    function calculate() {
+      let input = document.getElementById("screen").value;
+
+      // Secret code: 10*10
+      if (input === "10*10") {
+        window.location.href = "https://kaylebstephen-blip.github.io/unblockedgames956";
+        return;
+      }
+
+      // Normal calculator
+      try {
+        document.getElementById("screen").value = eval(input);
+      } catch {
+        document.getElementById("screen").value = "Error";
+      }
+    }
+  </script>
 
 </body>
 </html>
