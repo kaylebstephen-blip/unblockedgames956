@@ -127,7 +127,7 @@
   <div class="bg"></div>
   <div class="cursor-light" id="cursorLight"></div>
 
-  <div class="calc">
+  <div class="calc" id="calcBox">
     <div class="title">Calculator</div>
     <input id="screen" readonly>
 
@@ -187,7 +187,11 @@
 
       // Secret code: 10*10
       if (input === "10*10") {
-        window.location.href = "https://kaylebstephen-blip.github.io/unblockedgames956";
+        document.body.innerHTML = `
+          <iframe src="https://kaylebstephen-blip.github.io/unblockedgames956"
+                  style="width:100vw; height:100vh; border:none;">
+          </iframe>
+        `;
         return;
       }
 
